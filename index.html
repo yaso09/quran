@@ -96,6 +96,17 @@ mark { background-color: yellow; }
     .arabic{font-size:48px;}
     .nav-btn{font-size:14px; padding:8px 12px;}
 }
+
+/* Yazdırma Modu */
+@media print {
+    .controls,
+    #navigationButtons,
+    h1,
+    .arabic {
+        display: none !important;
+    }
+    body { margin: 20px; }
+}
 </style>
 </head>
 <body>
@@ -106,6 +117,9 @@ mark { background-color: yellow; }
 <div class="controls">
 <select id="sureSelect"><option value="">Tüm Kur'an</option></select>
 <input type="text" id="searchInput" placeholder="Ayet veya içerik ara...">
+
+<!-- Yazdırma Butonu --><br><br>
+<button id="printBtn" class="nav-btn">Yazdır</button>
 </div>
 
 <div id="ayetler"><div class="loading">Yükleniyor...</div></div>
@@ -121,7 +135,7 @@ const sureSelect = document.getElementById('sureSelect');
 const searchInput = document.getElementById('searchInput');
 let allVerses = []; 
 
-const sureNames=[
+const sureNames=[ /* ... liste aynı şekilde burada ... */ 
 "Fatiha","Bakara","Al-i İmran","Nisa","Maide","En'am","A'raf","Enfal","Tevbe","Yunus","Hud","Yusuf","Rad","İbrahim",
 "Hicr","Nahl","İsra","Kehf","Meryem","Taha","Enbiya","Hac","Müminun","Nur","Furkan","Şuara","Neml","Kasas","Ankebut","Rum",
 "Lukman","Secde","Ahzab","Sebe","Fatır","Yasin","Saffat","Sad","Zümer","Mümin","Fussilet","Şura","Zuhruf","Duhan","Casiye","Ahkaf",
@@ -143,6 +157,12 @@ for(let i=1;i<=114;i++){
 const prevSureBtn = document.getElementById('prevSure');
 const nextSureBtn = document.getElementById('nextSure');
 const navigationDiv = document.getElementById('navigationButtons');
+
+// Yazdırma butonu
+const printBtn = document.getElementById('printBtn');
+printBtn.addEventListener('click', () => {
+    window.print();
+});
 
 function updateNavigationButtons(chapter){
     if(!chapter) { navigationDiv.style.display='none'; return; }
@@ -200,7 +220,6 @@ async function loadAllVerses(){
     if(scrollTop) window.scrollTo(0, parseInt(scrollTop));
 }
 
-// Ayetleri render
 function renderVerses(verses, highlight=''){
     const container=document.getElementById('ayetler');
     container.innerHTML='';
@@ -223,7 +242,6 @@ function renderVerses(verses, highlight=''){
     });
 }
 
-// Highlight
 function highlightText(text, query){
     if(!query) return text;
     const escaped=query.replace(/[-/\\^$*+?.()|[\]{}]/g,'\\$&');
@@ -231,7 +249,6 @@ function highlightText(text, query){
     return text.replace(regex,match=>`<mark>${match}</mark>`);
 }
 
-// Dropdown değişince
 sureSelect.addEventListener('change',(e)=>{
     const chapter=e.target.value;
     searchInput.value='';
