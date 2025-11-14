@@ -19,6 +19,13 @@
     font-style: normal;
     font-display: swap;
 }
+@font-face {
+    font-family: 'Alshohadaa';
+    src: url('/alshohadaa.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
 body {
     margin: 0;
     font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', sans-serif;
@@ -31,7 +38,20 @@ body {
     margin: auto;
     padding: 20px;
 }
-h1, h2 { font-family: 'StackSansNotch', sans-serif; text-align: center; }
+.arabic {
+    font-family: 'Alshohadaa', serif;
+    font-size: 72px;
+    text-align: center;
+    margin: 0;
+}
+h1 {
+    font-family: 'StackSansNotch', sans-serif;
+    font-size: 2rem;
+    margin: 4px 0 20px;
+    font-weight: 600;
+    color: #444;
+    text-align: center;
+}
 .controls { margin-bottom: 20px; text-align: center; }
 .controls select, .controls input { font-size: 16px; padding: 6px 12px; margin: 5px; }
 .verse { margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
@@ -46,24 +66,38 @@ h1, h2 { font-family: 'StackSansNotch', sans-serif; text-align: center; }
 .verse-number { font-size: 12px; font-weight: bold; color: #555; margin-bottom: 5px; text-align: center; }
 .loading { font-size: 18px; font-weight: bold; text-align: center; margin: 30px 0; }
 mark { background-color: yellow; }
-@media(max-width:800px){.arabic-text{font-size:25px;}.english-text{font-size:14px;}.controls select,.controls input{font-size:14px;}}
+button { font-size: 14px; padding: 6px 12px; cursor: pointer; }
+@media(max-width:800px){
+    .arabic-text{font-size:25px;}
+    .english-text{font-size:14px;}
+    .controls select,.controls input{font-size:14px;}
+    .arabic{font-size:48px;}
+}
 </style>
 </head>
 <body>
 <div class="content">
-<h1>Kur'an Okuyucu</h1>
+<div class="arabic">ﻳﺎﺳﺮ</div>
+<h1>Yasir Eymen</h1>
+
 <div class="controls">
 <select id="sureSelect"><option value="">Tüm Kur'an</option></select>
 <input type="text" id="searchInput" placeholder="Ayet veya içerik ara...">
 </div>
+
 <div id="ayetler"><div class="loading">Yükleniyor...</div></div>
+
+<div id="navigationButtons" style="text-align:center; margin-top:20px; display:none;">
+  <button id="prevSure" style="margin-right:10px;">← Önceki Sure</button>
+  <button id="nextSure">Sonraki Sure →</button>
 </div>
+</div>
+
 <script>
 const sureSelect = document.getElementById('sureSelect');
 const searchInput = document.getElementById('searchInput');
 let allVerses = []; 
 
-// Tüm sure isimleri
 const sureNames=[
 "Fatiha","Bakara","Al-i İmran","Nisa","Maide","En'am","A'raf","Enfal","Tevbe","Yunus","Hud","Yusuf","Rad","İbrahim",
 "Hicr","Nahl","İsra","Kehf","Meryem","Taha","Enbiya","Hac","Müminun","Nur","Furkan","Şuara","Neml","Kasas","Ankebut","Rum",
@@ -71,7 +105,7 @@ const sureNames=[
 "Muhammed","Fetih","Hucurat","Kaf","Zariyat","Tur","Necm","Kamer","Rahman","Vakıa","Hadid","Mücadele","Haşr","Mümtehine","Saf",
 "Cuma","Münafikun","Tegabun","Talak","Tahrim","Mülk","Kalem","Hakka","Mearic","Nuh","Cin","Müzzemmil","Müddessir","Kıyamet","İnsan","Mürselat",
 "Nebe","Naziat","Abese","Tekvir","İnfitar","Mutaffifin","İnşikak","Büruc","Tarık","A'la","Gaşiye","Fecr","Beled","Leyl","Duha",
-"İnşirah","Tin", "Tarık","Alak","Kadir","Beyyine","Zilzal","Adiyat","Kari'a","Tekasür", "Asr", "Hümeze", "Fil", "Kureyş", "Ma'un", "Kevser", "Kafirun", "Nasr", "Tebbet", "İhlas", "Felak", "Nas"
+"İnşirah","Tin","Tarık","Alak","Kadir","Beyyine","Zilzal","Adiyat","Kari'a","Tekasür","Asr","Hümeze","Fil","Kureyş","Ma'un","Kevser","Kafirun","Nasr","Tebbet","İhlas","Felak","Nas"
 ];
 
 // Dropdown oluştur
@@ -82,24 +116,50 @@ for(let i=1;i<=114;i++){
     sureSelect.appendChild(option);
 }
 
-// JSON dosyasından sure yükle
+// Butonlar
+const prevSureBtn = document.getElementById('prevSure');
+const nextSureBtn = document.getElementById('nextSure');
+const navigationDiv = document.getElementById('navigationButtons');
+
+function updateNavigationButtons(chapter){
+    if(!chapter) { navigationDiv.style.display='none'; return; }
+    navigationDiv.style.display='block';
+    prevSureBtn.disabled = (chapter <= 1);
+    nextSureBtn.disabled = (chapter >= 114);
+}
+
+prevSureBtn.addEventListener('click',()=>{
+    let chap = parseInt(sureSelect.value);
+    if(chap > 1){ chap--; sureSelect.value = chap; loadVerse(chap); localStorage.setItem('lastChapter', chap); }
+});
+
+nextSureBtn.addEventListener('click',()=>{
+    let chap = parseInt(sureSelect.value);
+    if(chap < 114){ chap++; sureSelect.value = chap; loadVerse(chap); localStorage.setItem('lastChapter', chap); }
+});
+
+// JSON yükleme
 async function loadVerse(chapter){
     const container=document.getElementById('ayetler');
     container.innerHTML='<div class="loading">Yükleniyor...</div>';
     allVerses=[];
-    if(!chapter) return loadAllVerses(); // Tüm Kur'an
+    if(!chapter) return loadAllVerses(); 
     try{
         const response=await fetch(`/data/verses/${chapter}.json`);
         const data=await response.json();
         allVerses=data.verses;
         renderVerses(allVerses);
-        // Scroll pozisyonunu geri yükle
+        updateNavigationButtons(parseInt(chapter));
         const scrollTop = localStorage.getItem('scrollTop');
         if(scrollTop) window.scrollTo(0, parseInt(scrollTop));
-    }catch(e){container.innerHTML='<div class="loading">Bu sure yüklenemedi.</div>'; console.error(e);}
+    }catch(e){
+        container.innerHTML='<div class="loading">Bu sure yüklenemedi.</div>'; 
+        console.error(e);
+        navigationDiv.style.display='none';
+    }
 }
 
-// Tüm Kur'an'ı yükle
+// Tüm Kur'an
 async function loadAllVerses(){
     const container=document.getElementById('ayetler');
     container.innerHTML='<div class="loading">Yükleniyor...</div>';
@@ -112,12 +172,12 @@ async function loadAllVerses(){
         }catch(e){console.error(`Sure ${i} yüklenemedi`,e);}
     }
     renderVerses(allVerses);
-    // Scroll pozisyonunu geri yükle
+    navigationDiv.style.display='none';
     const scrollTop = localStorage.getItem('scrollTop');
     if(scrollTop) window.scrollTo(0, parseInt(scrollTop));
 }
 
-// Ayetleri render et
+// Ayetleri render
 function renderVerses(verses, highlight=''){
     const container=document.getElementById('ayetler');
     container.innerHTML='';
@@ -140,7 +200,7 @@ function renderVerses(verses, highlight=''){
     });
 }
 
-// Metni highlight et
+// Highlight
 function highlightText(text, query){
     if(!query) return text;
     const escaped=query.replace(/[-/\\^$*+?.()|[\]{}]/g,'\\$&');
@@ -173,7 +233,7 @@ window.addEventListener('beforeunload',()=>{
     localStorage.setItem('scrollTop', window.scrollY);
 });
 
-// Sayfa açıldığında kaldığı yerden devam et
+// Kaldığı yerden devam
 const lastChapter = localStorage.getItem('lastChapter');
 if(lastChapter){
     sureSelect.value = lastChapter;
