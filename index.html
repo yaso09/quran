@@ -136,7 +136,7 @@ h1 {
         <button class="nav-btn" onclick="window.location.href = 'https://yasireymen.com'">
             yasireymen.com
         </button>
-        <button class="nav-btn" onclick="localStorage.clear()">
+        <button class="nav-btn" onclick="resetData()">
             Verileri Temizle
         </button>
     </center>
@@ -145,6 +145,14 @@ h1 {
 </div>
 
 <script>
+function resetData() {
+    if (confirm("Veriler temizlendiği takdirde en son nerede kaldığınız bilgisi de silinecektir, emin misiniz?")) {
+        localStorage.clear();
+        alert("Veriler temizlendi!");
+        window.location.reload();
+    }
+}
+
 const sureNames=[
 "Fatiha","Bakara","Al-i İmran","Nisa","Maide","En'am","A'raf","Enfal","Tevbe","Yunus","Hud","Yusuf","Rad","İbrahim",
 "Hicr","Nahl","İsra","Kehf","Meryem","Taha","Enbiya","Hac","Müminun","Nur","Furkan","Şuara","Neml","Kasas","Ankebut","Rum",
