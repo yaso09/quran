@@ -227,23 +227,27 @@ async function loadAllVerses(){
 }
 
 function renderVerses(verses, highlight=''){
-    const container=document.getElementById('ayetler');
-    container.innerHTML='';
-    verses.forEach(ayet=>{
-        const verseDiv=document.createElement('div');
+    const container = document.getElementById('ayetler');
+    container.innerHTML = '';
+
+    verses.forEach(ayet => {
+        const verseDiv = document.createElement('div');
         verseDiv.classList.add('verse');
 
-        const number=document.createElement('div');
+        // Ayet numarası
+        const number = document.createElement('div');
         number.classList.add('verse-number');
-        number.textContent=`Ayet ${ayet.verseNumber} (${ayet.verseKey})`;
+        number.textContent = `Ayet ${ayet.verseNumber} (${ayet.verseKey})`;
 
-        const arabic=document.createElement('div');
+        // Arapça metin
+        const arabic = document.createElement('div');
         arabic.classList.add('arabic-text');
-        arabic.innerHTML=highlightText(ayet.arabic,highlight);
+        arabic.innerHTML = highlightText(ayet.arabic, highlight);
 
-        const english=document.createElement('div');
+        // İngilizce çeviri
+        const english = document.createElement('div');
         english.classList.add('english-text');
-        english.innerHTML=highlightText(ayet.english,highlight);
+        english.innerHTML = highlightText(ayet.english, highlight);
 
         // Paylaş butonu
         const shareBtn = document.createElement('button');
@@ -254,25 +258,42 @@ function renderVerses(verses, highlight=''){
         shareBtn.style.marginTop = '5px';
 
         shareBtn.addEventListener('click', async () => {
-            const width = 1080; 
+            const width = 1080;
             const height = 1080;
             const canvas = document.createElement('canvas');
             canvas.width = width;
             canvas.height = height;
             const ctx = canvas.getContext('2d');
 
-            // Arka plan gradient + soft ışık
+            // Gradient arka plan
             const gradient = ctx.createLinearGradient(0, 0, 0, height);
             gradient.addColorStop(0, '#0f2027');
             gradient.addColorStop(1, '#2c5364');
             ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, width, height);
 
-            const lightGradient = ctx.createRadialGradient(width/2, height/2, 0, width/2, height/2, width/1.5);
-            lightGradient.addColorStop(0, 'rgba(255,255,255,0.05)');
-            lightGradient.addColorStop(1, 'rgba(255,255,255,0)');
-            ctx.fillStyle = lightGradient;
-            ctx.fillRect(0, 0, width, height);
+            // Soft ışık patlamaları
+            for(let i=0;i<3;i++){
+                const radius = Math.random()*400 + 200;
+                const x = Math.random()*width;
+                const y = Math.random()*height;
+                const glow = ctx.createRadialGradient(x, y, 0, x, y, radius);
+                glow.addColorStop(0,'rgba(255,255,255,0.08)');
+                glow.addColorStop(1,'rgba(255,255,255,0)');
+                ctx.fillStyle = glow;
+                ctx.fillRect(0,0,width,height);
+            }
+
+            // Hafif geometrik desen (rasgele noktalar)
+            for(let i=0;i<150;i++){
+                ctx.fillStyle = `rgba(255,255,255,${Math.random()*0.05})`;
+                const x = Math.random()*width;
+                const y = Math.random()*height;
+                const r = Math.random()*3+1;
+                ctx.beginPath();
+                ctx.arc(x,y,r,0,2*Math.PI);
+                ctx.fill();
+            }
 
             // Ayeti ortala
             ctx.fillStyle = '#fff';
@@ -289,7 +310,7 @@ function renderVerses(verses, highlight=''){
             const arabicLines = ayet.arabic.split(/\n/);
             const arabicLineHeight = 70;
             let arabicHeight = arabicLines.length * arabicLineHeight;
-            let y = (height - arabicHeight) / 2 - 50; // biraz yukarı kaydır
+            let y = (height - arabicHeight) / 2 - 50;
 
             arabicLines.forEach(line => {
                 ctx.fillText(line, width / 2, y);
