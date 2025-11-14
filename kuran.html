@@ -234,22 +234,18 @@ function renderVerses(verses, highlight=''){
         const verseDiv = document.createElement('div');
         verseDiv.classList.add('verse');
 
-        // Ayet numarası
         const number = document.createElement('div');
         number.classList.add('verse-number');
         number.textContent = `Ayet ${ayet.verseNumber} (${ayet.verseKey})`;
 
-        // Arapça metin
         const arabic = document.createElement('div');
         arabic.classList.add('arabic-text');
         arabic.innerHTML = highlightText(ayet.arabic, highlight);
 
-        // İngilizce çeviri
         const english = document.createElement('div');
         english.classList.add('english-text');
         english.innerHTML = highlightText(ayet.english, highlight);
 
-        // Paylaş butonu
         const shareBtn = document.createElement('button');
         shareBtn.textContent = '📤 Paylaş';
         shareBtn.classList.add('nav-btn');
@@ -265,25 +261,27 @@ function renderVerses(verses, highlight=''){
             canvas.height = height;
             const ctx = canvas.getContext('2d');
 
-            // Arka plan gradient + soft ışık
+            // Canlı gradient arka plan (mor → pembe → turuncu)
             const gradient = ctx.createLinearGradient(0, 0, 0, height);
-            gradient.addColorStop(0, '#0f2027');
-            gradient.addColorStop(1, '#2c5364');
+            gradient.addColorStop(0, '#8e2de2'); // mor
+            gradient.addColorStop(0.5, '#ff6a00'); // turuncu
+            gradient.addColorStop(1, '#ff0080'); // pembe
             ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, width, height);
 
-            for(let i=0;i<3;i++){
+            // Soft glow radial patlamalar
+            for(let i=0;i<4;i++){
                 const radius = Math.random()*400 + 200;
                 const x = Math.random()*width;
                 const y = Math.random()*height;
                 const glow = ctx.createRadialGradient(x, y, 0, x, y, radius);
-                glow.addColorStop(0,'rgba(255,255,255,0.08)');
+                glow.addColorStop(0,'rgba(255,255,255,0.1)');
                 glow.addColorStop(1,'rgba(255,255,255,0)');
                 ctx.fillStyle = glow;
                 ctx.fillRect(0,0,width,height);
             }
 
-            // Hafif geometrik desen (rasgele noktalar)
+            // Hafif geometrik desen
             for(let i=0;i<150;i++){
                 ctx.fillStyle = `rgba(255,255,255,${Math.random()*0.05})`;
                 const x = Math.random()*width;
@@ -295,14 +293,17 @@ function renderVerses(verses, highlight=''){
             }
 
             // Ayeti ortala
-            ctx.fillStyle = '#fff';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
 
-            // Arapça ayet (font boyutu büyütüldü)
+            // Arapça ayet - canlı renk
+            const arabicGradient = ctx.createLinearGradient(0, height/2 - 100, width, height/2 + 100);
+            arabicGradient.addColorStop(0, '#fffc00'); // sarı
+            arabicGradient.addColorStop(1, '#00ffff'); // turkuaz
+            ctx.fillStyle = arabicGradient;
             ctx.font = 'bold 80px Aqeeq, serif';
             ctx.shadowColor = 'rgba(0,0,0,0.3)';
-            ctx.shadowBlur = 8;
+            ctx.shadowBlur = 10;
             ctx.shadowOffsetX = 2;
             ctx.shadowOffsetY = 2;
 
@@ -312,13 +313,16 @@ function renderVerses(verses, highlight=''){
             let y = (height - arabicHeight) / 2 - 50;
 
             arabicLines.forEach(line => {
-                ctx.fillText(line, width / 2, y);
+                ctx.fillText(line, width/2, y);
                 y += arabicLineHeight;
             });
 
-            // İngilizce çeviri + ayet numarası (font büyütüldü)
+            // İngilizce çeviri - canlı gradient
+            const engGradient = ctx.createLinearGradient(0, y, width, y + 200);
+            engGradient.addColorStop(0, '#ff00ff'); // pembe
+            engGradient.addColorStop(1, '#00ff00'); // yeşil
+            ctx.fillStyle = engGradient;
             ctx.shadowColor = 'transparent';
-            ctx.fillStyle = '#fff';
             ctx.font = '36px Arial, sans-serif';
 
             const englishText = ayet.english + ` [${ayet.verseKey}]`;
@@ -346,9 +350,9 @@ function renderVerses(verses, highlight=''){
                 y += lineHeight;
             });
 
-            // Alt site adı (font büyütüldü)
+            // Alt site adı
             ctx.font = '24px Arial, sans-serif';
-            ctx.fillStyle = 'rgba(255,255,255,0.7)';
+            ctx.fillStyle = 'rgba(255,255,255,0.9)';
             ctx.fillText('kuran.yasireymen.com', width/2, height - 40);
 
             // Görseli paylaş
