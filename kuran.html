@@ -231,7 +231,8 @@ function renderVerses(verses, highlight=''){
     container.innerHTML = '';
 
     function randomColor() {
-        const colors = ['#ff6b6b', '#fbc531', '#4cd137', '#00a8ff', '#9c88ff', '#ff9ff3', '#f5f6fa', '#ff4757'];
+        // Beyazı tamamen çıkarıyoruz
+        const colors = ['#ff6b6b', '#fbc531', '#4cd137', '#00a8ff', '#9c88ff', '#ff9ff3', '#ff4757', '#ff793f', '#3742fa'];
         return colors[Math.floor(Math.random() * colors.length)];
     }
 
@@ -266,7 +267,7 @@ function renderVerses(verses, highlight=''){
             canvas.height = height;
             const ctx = canvas.getContext('2d');
 
-            // Rastgele gradient arka plan
+            // Rastgele gradient arka plan (beyaz yok)
             const gradient = ctx.createLinearGradient(0, 0, 0, height);
             gradient.addColorStop(0, randomColor());
             gradient.addColorStop(0.5, randomColor());
