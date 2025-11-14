@@ -275,7 +275,7 @@ function renderVerses(verses, highlight=''){
                 const x = Math.random()*width;
                 const y = Math.random()*height;
                 const glow = ctx.createRadialGradient(x, y, 0, x, y, radius);
-                glow.addColorStop(0,'rgba(255,255,255,0.1)');
+                glow.addColorStop(0,'rgba(255,255,255,0.08)');
                 glow.addColorStop(1,'rgba(255,255,255,0)');
                 ctx.fillStyle = glow;
                 ctx.fillRect(0,0,width,height);
@@ -295,18 +295,14 @@ function renderVerses(verses, highlight=''){
             // Ayeti ortala
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-
-            // Arapça ayet - canlı renk
-            const arabicGradient = ctx.createLinearGradient(0, height/2 - 100, width, height/2 + 100);
-            arabicGradient.addColorStop(0, '#fffc00'); // sarı
-            arabicGradient.addColorStop(1, '#00ffff'); // turkuaz
-            ctx.fillStyle = arabicGradient;
-            ctx.font = 'bold 80px Aqeeq, serif';
+            ctx.fillStyle = '#fff'; // Beyaz metin
             ctx.shadowColor = 'rgba(0,0,0,0.3)';
             ctx.shadowBlur = 10;
             ctx.shadowOffsetX = 2;
             ctx.shadowOffsetY = 2;
 
+            // Arapça ayet
+            ctx.font = 'bold 80px Aqeeq, serif';
             const arabicLines = ayet.arabic.split(/\n/);
             const arabicLineHeight = 90;
             let arabicHeight = arabicLines.length * arabicLineHeight;
@@ -317,12 +313,9 @@ function renderVerses(verses, highlight=''){
                 y += arabicLineHeight;
             });
 
-            // İngilizce çeviri - canlı gradient
-            const engGradient = ctx.createLinearGradient(0, y, width, y + 200);
-            engGradient.addColorStop(0, '#ff00ff'); // pembe
-            engGradient.addColorStop(1, '#00ff00'); // yeşil
-            ctx.fillStyle = engGradient;
+            // İngilizce çeviri + ayet numarası
             ctx.shadowColor = 'transparent';
+            ctx.fillStyle = '#fff';
             ctx.font = '36px Arial, sans-serif';
 
             const englishText = ayet.english + ` [${ayet.verseKey}]`;
