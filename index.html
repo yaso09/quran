@@ -87,6 +87,28 @@ h1 {
     font-weight: 500;
 }
 
+.nav-btn {
+  font-family: 'StackSansNotch', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #000;
+  background: #fff;
+  border: 1px solid #000;
+  padding: 10px 16px;
+  margin: 5px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.nav-btn:hover:not(:disabled) {
+  background: #000;
+  color: #fff;
+}
+.nav-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
 @media(max-width:700px){
     .arabic-title{ font-size: 52px; }
     .sure-item{ padding: 12px; }
@@ -100,6 +122,7 @@ h1 {
 
 <div class="arabic-title">الفهرست</div>
 <h1>Kur'an Fihristi</h1>
+<a class="nav-btn">Kaldığın Yerden Devam Et</a>
 
 <div class="sure-list" id="sureList"></div>
 
