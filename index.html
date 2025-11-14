@@ -1,116 +1,117 @@
 <!doctype html>
 <html lang="tr">  
 <head>  
-  <meta charset="utf-8" />  
-  <meta name="viewport" content="width=device-width,initial-scale=1" />  
-  <title>Kur'an — Fatiha</title>  
-  <link rel="icon" href="data:;base64,iVBORw0KGgo=" />  
-  <style>  
-    @font-face {  
-      font-family: 'Alshohadaa';  
-      src: url('/alshohadaa.ttf') format('truetype');  
-      font-weight: 700;  
-      font-style: normal;  
-      font-display: swap;  
-    }  
-    @font-face {  
-      font-family: 'StackSansNotch';  
-      src: url('/StackSansNotch-Bold.ttf') format('truetype');  
-      font-weight: 700;  
-      font-style: normal;  
-      font-display: swap;  
-    }  
+<meta charset="utf-8" />  
+<meta name="viewport" content="width=device-width,initial-scale=1" />  
+<title>Kur'an — Tam Metin</title>  
+<style>  
+  @font-face {  
+    font-family: 'Alshohadaa';  
+    src: url('/alshohadaa.ttf') format('truetype');  
+    font-weight: 700;  
+    font-style: normal;  
+    font-display: swap;  
+  }  
+  @font-face {  
+    font-family: 'StackSansNotch';  
+    src: url('/StackSansNotch-Bold.ttf') format('truetype');  
+    font-weight: 700;  
+    font-style: normal;  
+    font-display: swap;  
+  }  
 
-    * { box-sizing: border-box; }
-    html, body {
-      height: 100%;
-      margin: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #fff;
-      color: #000;
-      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', sans-serif;
-    }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: #fff;
+    color: #000;
+    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', sans-serif;
+    line-height: 1.4;
+  }
 
-    .content {
-      text-align: center;
-      max-width: 800px;
-      padding: 20px;
-    }
+  .content {
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+  }
 
-    h1, h2, h3, h4, h5, h6 {
-      font-family: 'StackSansNotch', sans-serif;
-    }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'StackSansNotch', sans-serif;
+  }
 
-    [lang="ar"] h1, [lang="ar"] h2, [lang="ar"] h3, [lang="ar"] h4, [lang="ar"] h5, [lang="ar"] h6, .arabic-text {
-      font-family: 'Alshohadaa', 'Noto Naskh Arabic', serif;
-    }
+  .arabic-text {
+    font-family: 'Alshohadaa', 'Noto Naskh Arabic', serif;
+    font-size: 30px;
+    font-weight: 700;
+    direction: rtl;
+    margin: 5px 0 5px 0;
+  }
 
-    .arabic-text {
-      font-size: 80px;
-      margin: 20px 0 10px 0;
-      direction: rtl;
-    }
+  .english-text {
+    font-size: 14px;
+    margin-bottom: 15px;
+  }
 
-    .english-text {
-      font-size: 18px;
-      margin-bottom: 30px;
-      line-height: 1.6;
-    }
+  .verse-number {
+    font-weight: bold;
+    color: #555;
+    font-size: 12px;
+  }
 
-    .verse-number {
-      font-weight: bold;
-      margin-bottom: 5px;
-      color: #555;
-    }
-
-    @media (max-width: 600px) {
-      .arabic-text { font-size: 50px; }
-      .english-text { font-size: 16px; }
-    }
-  </style>  
+  @media (max-width: 600px) {
+    .arabic-text { font-size: 20px; }
+    .english-text { font-size: 12px; }
+  }
+</style>  
 </head>  
 <body>  
-  <div class="content">  
-    <h1 class="coming-soon">Fatiha Suresi</h1>
-    <div id="ayetler"></div>
+  <div class="content" id="ayetler">
+    <h1>Kur'an — Tam Metin</h1>
   </div>
 
 <script>
-async function loadVerses() {
+async function loadAllVerses() {
+  const container = document.getElementById('ayetler');
+
+  for (let chapter = 1; chapter <= 114; chapter++) {
     try {
-        const response = await fetch('/data/verses/1.json');
-        const data = await response.json();
-        const container = document.getElementById('ayetler');
+      const response = await fetch(`/data/verses/${chapter}.json`);
+      const data = await response.json();
 
-        data.verses.forEach(ayet => {
-            const verseDiv = document.createElement('div');
+      const chapterHeader = document.createElement('h2');
+      chapterHeader.textContent = `Sure ${chapter}`;
+      container.appendChild(chapterHeader);
 
-            const number = document.createElement('div');
-            number.classList.add('verse-number');
-            number.textContent = `Ayet ${ayet.verseNumber} (${ayet.verseKey})`;
+      data.verses.forEach(ayet => {
+        const verseDiv = document.createElement('div');
 
-            const arabic = document.createElement('div');
-            arabic.classList.add('arabic-text');
-            arabic.innerHTML = ayet.arabic;
+        const number = document.createElement('div');
+        number.classList.add('verse-number');
+        number.textContent = `Ayet ${ayet.verseNumber} (${ayet.verseKey})`;
 
-            const english = document.createElement('div');
-            english.classList.add('english-text');
-            english.innerHTML = ayet.english;
+        const arabic = document.createElement('div');
+        arabic.classList.add('arabic-text');
+        arabic.innerHTML = ayet.arabic;
 
-            verseDiv.appendChild(number);
-            verseDiv.appendChild(arabic);
-            verseDiv.appendChild(english);
+        const english = document.createElement('div');
+        english.classList.add('english-text');
+        english.innerHTML = ayet.english;
 
-            container.appendChild(verseDiv);
-        });
+        verseDiv.appendChild(number);
+        verseDiv.appendChild(arabic);
+        verseDiv.appendChild(english);
+
+        container.appendChild(verseDiv);
+      });
+
     } catch (error) {
-        console.error("JSON dosyası okunamadı:", error);
+      console.error(`Sure ${chapter} yüklenemedi:`, error);
     }
+  }
 }
 
-loadVerses();
+// Sayfa yüklendiğinde tüm sureleri yükle
+loadAllVerses();
 </script>
 </body>  
 </html>
