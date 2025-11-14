@@ -133,6 +133,7 @@ mark { background-color: yellow; }
 </div>
 
 <script src="./print.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script>
 const sureSelect = document.getElementById('sureSelect');
 const searchInput = document.getElementById('searchInput');
@@ -230,35 +231,62 @@ function renderVerses(verses, highlight=''){
     container.innerHTML='';
     verses.forEach(ayet=>{
         const verseDiv=document.createElement('div');
+        verseDiv.classList.add('verse');
+
         const number=document.createElement('div');
         number.classList.add('verse-number');
         number.textContent=`Ayet ${ayet.verseNumber} (${ayet.verseKey})`;
+
         const arabic=document.createElement('div');
         arabic.classList.add('arabic-text');
         arabic.innerHTML=highlightText(ayet.arabic,highlight);
+
         const english=document.createElement('div');
         english.classList.add('english-text');
         english.innerHTML=highlightText(ayet.english,highlight);
-        verseDiv.classList.add('verse');
+
+        // Paylaş butonu (resim olarak)
         const shareBtn = document.createElement('button');
         shareBtn.textContent = '📤 Paylaş';
         shareBtn.classList.add('nav-btn');
         shareBtn.style.fontSize = '14px';
         shareBtn.style.padding = '4px 8px';
         shareBtn.style.marginTop = '5px';
-        shareBtn.addEventListener('click', () => {
-            const textToShare = `${ayet.arabic}\n${ayet.english}`;
-            navigator.clipboard.writeText(textToShare).then(() => {
-                alert('Ayet kopyalandı! Artık paylaşabilirsiniz.');
-            }).catch(err => console.error('Kopyalama hatası:', err));
+
+        shareBtn.addEventListener('click', async () => {
+            // Önce geçici bir container oluştur
+            const tempDiv = document.createElement('div');
+            tempDiv.style.background = '#fff';
+            tempDiv.style.padding = '20px';
+            tempDiv.style.width = 'auto';
+            tempDiv.style.fontFamily = 'Aqeeq, serif';
+            tempDiv.innerHTML = `<div style="font-size:36px; text-align:right;">${ayet.arabic}</div>
+                                 <div style="font-size:18px; text-align:left; margin-top:10px;">${ayet.english}</div>`;
+            document.body.appendChild(tempDiv);
+
+            // html2canvas ile görsele çevir
+            const canvas = await html2canvas(tempDiv, {scale:2});
+            const imgData = canvas.toDataURL('image/png');
+
+            // Geçici div'i kaldır
+            document.body.removeChild(tempDiv);
+
+            // Resmi indirme linki oluştur
+            const link = document.createElement('a');
+            link.href = imgData;
+            link.download = `ayet_${ayet.verseNumber}.png`;
+            link.click();
         });
+
         verseDiv.appendChild(number);
         verseDiv.appendChild(arabic);
         verseDiv.appendChild(english);
         verseDiv.appendChild(shareBtn);
+
         container.appendChild(verseDiv);
     });
 }
+
 
 function highlightText(text, query){
     if(!query) return text;
