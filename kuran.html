@@ -33,6 +33,9 @@ body {
     color: #000;
     line-height: 1.5;
 }
+html {
+    overflow-x: hidden;
+}
 .content {
     max-width: 1000px;
     margin: auto;
@@ -107,14 +110,27 @@ mark { background-color: yellow; }
     }
     body { margin: 20px; }
 }
+.topbar {
+    width: 100%;
+    color: #000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
 </style>
 </head>
 <body>
+<div class="topbar">
+    <button onclick="window.location.href='/'" class="nav-btn">←</button>
+</div>
 <div class="content">
-<a href="/" style="text-decoration:none; color:inherit; display:block; text-align:center;">
-  <div class="arabic">القرآن</div>  <!-- Arapça Kur'an -->
-  <h1>Kur'an</h1>
-</a>
+<div class="arabic">القرآن</div>  <!-- Arapça Kur'an -->
+<h1>Kur'an</h1>
 
 <div class="controls">
 <select id="sureSelect"><option value="">Tüm Kur'an</option></select>
