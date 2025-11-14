@@ -63,11 +63,22 @@ const sureSelect = document.getElementById('sureSelect');
 const searchInput = document.getElementById('searchInput');
 let allVerses = []; 
 
+// Tüm sure isimleri
+const sureNames=[
+"Fatiha","Bakara","Al-i İmran","Nisa","Maide","En'am","A'raf","Enfal","Tevbe","Yunus","Hud","Yusuf","Rad","İbrahim",
+"Hicr","Nahl","İsra","Kehf","Meryem","Taha","Enbiya","Hac","Müminun","Nur","Furkan","Şuara","Neml","Kasas","Ankebut","Rum",
+"Lukman","Secde","Ahzab","Sebe","Fatır","Yasin","Saffat","Sad","Zümer","Mümin","Fussilet","Şura","Zuhruf","Duhan","Casiye","Ahkaf",
+"Muhammed","Fetih","Hucurat","Kaf","Zariyat","Tur","Necm","Kamer","Rahman","Vakıa","Hadid","Mücadele","Haşr","Mümtehine","Saf",
+"Cuma","Münafikun","Tegabun","Talak","Tahrim","Mülk","Kalem","Hakka","Mearic","Nuh","Cin","Müzzemmil","Müddessir","Kıyamet","İnsan","Mürselat",
+"Nebe","Naziat","Abese","Tekvir","İnfitar","Mutaffifin","İnşikak","Büruc","Tarık","A'la","Gaşiye","Fecr","Beled","Leyl","Duha",
+"İnşirah","Tin","Alak","Kadir","Beyyine","Zilzal","Adiyat","Kari'a","Tekasür", "Asr", "Hümeze", "Fil", "Kureyş", "Ma'un", "Kevser", "Kafirun", "Nasr", "Tebbet", "İhlas", "Felak", "Nas"
+];
+
 // Dropdown oluştur
 for(let i=1;i<=114;i++){
     const option=document.createElement('option');
     option.value=i;
-    option.textContent=`Sure ${i}`;
+    option.textContent=`${i}. ${sureNames[i-1] || 'Sure '+i}`;
     sureSelect.appendChild(option);
 }
 
@@ -82,6 +93,9 @@ async function loadVerse(chapter){
         const data=await response.json();
         allVerses=data.verses;
         renderVerses(allVerses);
+        // Scroll pozisyonunu geri yükle
+        const scrollTop = localStorage.getItem('scrollTop');
+        if(scrollTop) window.scrollTo(0, parseInt(scrollTop));
     }catch(e){container.innerHTML='<div class="loading">Bu sure yüklenemedi.</div>'; console.error(e);}
 }
 
@@ -98,6 +112,9 @@ async function loadAllVerses(){
         }catch(e){console.error(`Sure ${i} yüklenemedi`,e);}
     }
     renderVerses(allVerses);
+    // Scroll pozisyonunu geri yükle
+    const scrollTop = localStorage.getItem('scrollTop');
+    if(scrollTop) window.scrollTo(0, parseInt(scrollTop));
 }
 
 // Ayetleri render et
@@ -136,6 +153,7 @@ sureSelect.addEventListener('change',(e)=>{
     const chapter=e.target.value;
     searchInput.value='';
     loadVerse(chapter);
+    localStorage.setItem('lastChapter', chapter);
 });
 
 // Arama
@@ -150,8 +168,19 @@ searchInput.addEventListener('input',(e)=>{
     renderVerses(filtered,query);
 });
 
-// Sayfa açıldığında tüm Kur'an'ı göster
-loadAllVerses();
+// Scroll pozisyonu kaydet
+window.addEventListener('beforeunload',()=>{
+    localStorage.setItem('scrollTop', window.scrollY);
+});
+
+// Sayfa açıldığında kaldığı yerden devam et
+const lastChapter = localStorage.getItem('lastChapter');
+if(lastChapter){
+    sureSelect.value = lastChapter;
+    loadVerse(lastChapter);
+}else{
+    loadAllVerses();
+}
 </script>
 </body>
 </html>
