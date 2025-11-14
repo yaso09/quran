@@ -240,9 +240,22 @@ function renderVerses(verses, highlight=''){
         english.classList.add('english-text');
         english.innerHTML=highlightText(ayet.english,highlight);
         verseDiv.classList.add('verse');
+        const shareBtn = document.createElement('button');
+        shareBtn.textContent = '📤 Paylaş';
+        shareBtn.classList.add('nav-btn');
+        shareBtn.style.fontSize = '14px';
+        shareBtn.style.padding = '4px 8px';
+        shareBtn.style.marginTop = '5px';
+        shareBtn.addEventListener('click', () => {
+            const textToShare = `${ayet.arabic}\n${ayet.english}`;
+            navigator.clipboard.writeText(textToShare).then(() => {
+                alert('Ayet kopyalandı! Artık paylaşabilirsiniz.');
+            }).catch(err => console.error('Kopyalama hatası:', err));
+        });
         verseDiv.appendChild(number);
         verseDiv.appendChild(arabic);
         verseDiv.appendChild(english);
+        verseDiv.appendChild(shareBtn);
         container.appendChild(verseDiv);
     });
 }
