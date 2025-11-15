@@ -97,6 +97,7 @@ mark { background-color: yellow; }
     .controls select,.controls input{font-size:14px;}
     .arabic{font-size:48px;}
     .nav-btn{font-size:14px; padding:8px 12px;}
+    .opennewtab{display: none;}
     #printBtn{display: none;}
 }
 
@@ -167,6 +168,7 @@ mark { background-color: yellow; }
 <select id="mealSelect">
     <option value="omer-nasuhi-bilmen" selected>Ömer Nasuhi Bilmen</option>
     <option value="hayrat-nesriyat">Hayrat Neşriyat</option>
+    <option value="diyanet-vakfi">Diyanet Vakfı</option>
 </select>
 <select id="sureSelect"></select>
 <input type="text" id="searchInput" placeholder="Ayet veya içerik ara...">
@@ -538,6 +540,7 @@ async function renderVerses(verses, highlight='', mealName="omer-nasuhi-bilmen")
         const openNewTabBtn = document.createElement('button');
         openNewTabBtn.textContent = '🖥 Yeni Sekmede Aç';
         openNewTabBtn.classList.add('nav-btn');
+        openNewTabBtn.classList.add("opennewtab");
         openNewTabBtn.style.fontSize = '16px';
         openNewTabBtn.style.padding = '6px 12px';
         openNewTabBtn.style.marginTop = '5px';
