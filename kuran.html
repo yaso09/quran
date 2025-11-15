@@ -258,7 +258,7 @@ async function meal(name, sure, ayet) {
     return result;
 }
 
-async function renderVerses(verses, highlight='', meal){
+async function renderVerses(verses, highlight='', mealName){
     const container = document.getElementById('ayetler');
     container.innerHTML = '';
 
@@ -302,7 +302,7 @@ async function renderVerses(verses, highlight='', meal){
         tevil.classList.add('english-text');
 
         const result = await meal(
-            meal,
+            mealName,
             ayet.verseKey.split(":")[0] - 1,
             ayet.verseNumber - 1
         )
