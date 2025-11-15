@@ -64,7 +64,7 @@
         try {
             const response = await fetch(`./data/mealler/${meal}.json`);
             const data = await response.json();
-            const verse = data.sures[sure - 1].ayetler[1];
+            const verse = data.sures[sure - 1].ayetler[ayet - 1][1];
 
             document.querySelector("#meal").innerHTML = verse;
         }
