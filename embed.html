@@ -1,4 +1,4 @@
-<div class="embedded-verse">
+<button class="embedded-verse">
     <style>
         @font-face {
             font-family: 'Kitab';
@@ -78,7 +78,7 @@
     <div id="meal"></div>
     <div id="num"></div><br><br>
     <div id="copyright">kuran.yasireymen.com</div>
-</div>
+</button>
 <script>
     function getQueryParam(param) {
         const urlParams = new URLSearchParams(window.location.search);
@@ -117,4 +117,8 @@
     if (sure && !isNaN(sure) && sure >= 1 && sure <= 114) {
         try { loadVerse(); } catch { window.location.href = "/"; }
     } else window.location.href = "/";
+
+    document.querySelector("button").addEventListener("click", function() {
+        window.open(`./kuran.html?sure=${sure}`, "_blank");
+    })
 </script>
