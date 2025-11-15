@@ -6,8 +6,8 @@
 <title>Kur'an Okuyucu</title>
 <style>
 @font-face {
-    font-family: 'Aqeeq';
-    src: url('/Aqeeq-Bold.ttf') format('truetype');
+    font-family: 'Kitab';
+    src: url('/Kitab-Bold.ttf') format('truetype');
     font-weight: 700;
     font-style: normal;
     font-display: swap;
@@ -58,7 +58,7 @@ h1 {
 select, input { font-size: 16px; padding: 6px 12px; margin: 5px; }
 .verse { margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
 .arabic-text {
-    font-family: 'Aqeeq', 'Noto Naskh Arabic', serif;
+    font-family: 'Kitab', 'Noto Naskh Arabic', serif;
     font-size: 32px;
     font-weight: 700;
     margin: 5px 0;
@@ -322,7 +322,7 @@ function renderVerses(verses, highlight=''){
             ctx.fillStyle = '#ffffff'; // Beyaz metin
 
             // Arapça ayet
-            ctx.font = 'bold 80px Aqeeq, serif';
+            ctx.font = 'bold 80px Kitab, serif';
             ctx.shadowColor = 'rgba(0,0,0,0.3)';
             ctx.shadowBlur = 10;
             ctx.shadowOffsetX = 2;
