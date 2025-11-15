@@ -434,7 +434,22 @@ async function renderVerses(verses, highlight=''){
         embedBtn.style.marginLeft = '5px';
 
         embedBtn.addEventListener("click", function() {
-            const embedCode = `<div class="embedded-verse">
+            const embedCode = `<div class="embedded-verse"><style>
+                    @font-face {
+                        font-family: 'Kitab';
+                        src: url('https://kuran.yasireymen.com/Kitab-Bold.ttf') format('truetype');
+                        font-weight: 700;
+                        font-style: normal;
+                        font-display: swap;
+                    }
+                    @font-face {
+                        font-family: 'StackSansNotch';
+                        src: url('https://kuran.yasireymen.com/StackSansNotch-Bold.ttf') format('truetype');
+                        font-weight: 700;
+                        font-style: normal;
+                        font-display: swap;
+                    }
+                </style>
                 <div style="{
                     font-family: 'Kitab', 'Noto Naskh Arabic', serif;
                     font-size: 32px;
