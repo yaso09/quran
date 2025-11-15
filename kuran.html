@@ -135,6 +135,9 @@ mark { background-color: yellow; }
 <h1>Kur'an</h1><br>
 <div class="topbar"><center>
     <button onclick="window.location.href='./'" class="nav-btn">←</button>
+<select id="mealSelect">
+    <option value="omer-nasuhi-bilmen">Ömer Nasuhi Bilmen</option>
+</select>
 <select id="sureSelect"></select>
 <input type="text" id="searchInput" placeholder="Ayet veya içerik ara...">
 
@@ -449,6 +452,7 @@ async function renderVerses(verses, highlight=''){
         verseDiv.appendChild(arabic);
         verseDiv.appendChild(tevil);
         verseDiv.appendChild(shareBtn);
+        verseDiv.appendChild(embedBtn);
 
         container.appendChild(verseDiv);
     }
