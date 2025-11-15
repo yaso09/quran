@@ -161,24 +161,19 @@ mark { background-color: yellow; }
 <script>
 function removeDuplicateIds() {
   const allElements = document.querySelectorAll('[id]');
-  const idCount = {};
+  const seenIds = new Set();
   let removedCount = 0;
 
   allElements.forEach(el => {
-    const id = el.id;
-
-    if (!idCount[id]) {
-      // ID ilk kez görülüyor: ilkini sil
-      idCount[id] = 1;
+    if (seenIds.has(el.id)) {
       el.remove();
       removedCount++;
     } else {
-      // ID daha önce görülmüş: bunu koru
-      idCount[id]++;
+      seenIds.add(el.id);
     }
   });
 
-  console.log(`${removedCount} first-occurrence element(s) removed.`);
+  console.log(`${removedCount} duplicate element(s) removed.`);
 }
 
 const sureSelect = document.getElementById('sureSelect');
