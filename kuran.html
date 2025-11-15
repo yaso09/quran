@@ -215,7 +215,7 @@ async function loadVerse(chapter){
         const response=await fetch(`/data/verses/${chapter}.json`);
         const data=await response.json();
         allVerses=data.verses;
-        renderVerses(allVerses);
+        await renderVerses(allVerses);
         updateNavigationButtons(parseInt(chapter));
         const scrollTop = localStorage.getItem(`${sureSelect.value}.scrollTop`);
         if(scrollTop) window.scrollTo(0, parseInt(scrollTop));
@@ -238,7 +238,7 @@ async function loadAllVerses(){
             allVerses.push(...data.verses);
         }catch(e){console.error(`Sure ${i} yüklenemedi`,e);}
     }
-    renderVerses(allVerses);
+    await renderVerses(allVerses);
     navigationDiv.style.display='none';
     const scrollTop = localStorage.getItem(`${sureSelect.value}.scrollTop`);
     if(scrollTop) window.scrollTo(0, parseInt(scrollTop));
@@ -264,18 +264,18 @@ async function renderVerses(verses, highlight=''){
     }
 
     for (const ayet of verses) {
-        const verseDiv = await document.createElement('div');
+        const verseDiv = document.createElement('div');
         verseDiv.classList.add('verse');
 
-        const number = await document.createElement('div');
+        const number = document.createElement('div');
         number.classList.add('verse-number');
         number.textContent = `Ayet ${ayet.verseNumber} (${ayet.verseKey})`;
 
-        const arabic = await document.createElement('div');
+        const arabic = document.createElement('div');
         arabic.classList.add('arabic-text');
         arabic.innerHTML = highlightText(ayet.arabic, highlight);
 
-        const tevil = await document.createElement('div');
+        const tevil = document.createElement('div');
         tevil.classList.add('english-text');
 
         const result = await meal(
@@ -286,7 +286,7 @@ async function renderVerses(verses, highlight=''){
 
         tevil.innerHTML = highlightText(result, highlight);
 
-        const shareBtn = await document.createElement('button');
+        const shareBtn = document.createElement('button');
         shareBtn.textContent = '📤 Paylaş';
         shareBtn.classList.add('nav-btn');
         shareBtn.style.fontSize = '16px';
@@ -432,15 +432,15 @@ sureSelect.addEventListener('change',(e)=>{
 });
 
 // Arama
-searchInput.addEventListener('input',(e)=>{
+searchInput.addEventListener('input',async (e)=>{
     const query=e.target.value.toLowerCase();
-    if(!query) return renderVerses(allVerses);
+    if(!query) return await renderVerses(allVerses);
     const filtered=allVerses.filter(ayet=>
         ayet.arabic.toLowerCase().includes(query) ||
         ayet.english.toLowerCase().includes(query) ||
         ayet.verseNumber.toString().includes(query)
     );
-    renderVerses(filtered,query);
+    await renderVerses(filtered,query);
 });
 
 // Scroll pozisyonu kaydet
