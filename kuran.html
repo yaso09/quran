@@ -488,6 +488,8 @@ async function renderVerses(verses, highlight='', mealName="omer-nasuhi-bilmen")
         verseDiv.appendChild(embedBtn);
         verseDiv.appendChild(openNewTabBtn);
 
+        verseDiv.id = `verse${ayet.verseKey}`;
+
         container.appendChild(verseDiv);
     }
 }
