@@ -253,7 +253,7 @@ async function meal(name, sure, ayet) {
     return result;
 }
 
-function renderVerses(verses, highlight=''){
+async function renderVerses(verses, highlight=''){
     const container = document.getElementById('ayetler');
     container.innerHTML = '';
 
@@ -277,7 +277,7 @@ function renderVerses(verses, highlight=''){
 
         const tevil = document.createElement('div');
         tevil.classList.add('english-text');
-        tevil.innerHTML = highlightText(meal(
+        tevil.innerHTML = highlightText(await meal(
             "omer-nasuhi-bilmen",
             ayet.verseKey.split(":")[0] - 1,
             ayet.verseNumber - 1
