@@ -215,7 +215,7 @@ async function loadVerse(chapter){
         const response=await fetch(`/data/verses/${chapter}.json`);
         const data=await response.json();
         allVerses=data.verses;
-        await renderVerses(allVerses);
+        renderVerses(allVerses);
         updateNavigationButtons(parseInt(chapter));
         const scrollTop = localStorage.getItem(`${sureSelect.value}.scrollTop`);
         if(scrollTop) window.scrollTo(0, parseInt(scrollTop));
@@ -238,7 +238,7 @@ async function loadAllVerses(){
             allVerses.push(...data.verses);
         }catch(e){console.error(`Sure ${i} yüklenemedi`,e);}
     }
-    await renderVerses(allVerses);
+    renderVerses(allVerses);
     navigationDiv.style.display='none';
     const scrollTop = localStorage.getItem(`${sureSelect.value}.scrollTop`);
     if(scrollTop) window.scrollTo(0, parseInt(scrollTop));
@@ -264,6 +264,7 @@ async function renderVerses(verses, highlight=''){
     }
 
     for (const ayet of verses) {
+        console.log(ayet);
         const verseDiv = document.createElement('div');
         verseDiv.classList.add('verse');
 
@@ -432,15 +433,15 @@ sureSelect.addEventListener('change',(e)=>{
 });
 
 // Arama
-searchInput.addEventListener('input',async (e)=>{
+searchInput.addEventListener('input',(e)=>{
     const query=e.target.value.toLowerCase();
-    if(!query) return await renderVerses(allVerses);
+    if(!query) return renderVerses(allVerses);
     const filtered=allVerses.filter(ayet=>
         ayet.arabic.toLowerCase().includes(query) ||
         ayet.english.toLowerCase().includes(query) ||
         ayet.verseNumber.toString().includes(query)
     );
-    await renderVerses(filtered,query);
+    renderVerses(filtered,query);
 });
 
 // Scroll pozisyonu kaydet
