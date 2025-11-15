@@ -130,4 +130,15 @@
     document.querySelector("button.embedded-verse").addEventListener("click", function () {
         window.open(`./kuran.html?sure=${sure}`, "_blank");
     });
+
+    function sendHeight() {
+        const height = document.body.scrollHeight;
+        parent.postMessage({ embedHeight: height }, "*");
+    }
+
+    // İlk yüklemede gönder
+    window.addEventListener("load", sendHeight);
+    // İçerik değişince gönder
+    window.addEventListener("resize", sendHeight);
+
 </script>
