@@ -439,7 +439,12 @@ async function renderVerses(verses, highlight='', mealName="omer-nasuhi-bilmen")
         embedBtn.style.marginLeft = '5px';
 
         embedBtn.addEventListener("click", function() {
-            const embedCode = `<div class="embedded-verse"><style>
+            const embedCode = `
+            <iframe width="100%" style="overflow: hidden;"
+            src="/embed.html?sure=${ayet.verseKey.split(":")[0]}&ayet=${ayet.verseNumber}&meal=${mealName}"
+            frameborder="0"></iframe>
+            `;
+            /*const embedCode = `<div class="embedded-verse"><style>
                     @font-face {
                         font-family: 'Kitab';
                         src: url('https://kuran.yasireymen.com/Kitab-Bold.ttf') format('truetype');
@@ -476,7 +481,7 @@ async function renderVerses(verses, highlight='', mealName="omer-nasuhi-bilmen")
                     margin-bottom: 5px;
                     text-align: center;
                 ">Ayet ${ayet.verseNumber} (${ayet.verseKey})</div>
-            </div>`;
+            </div>`;*/
             
             navigator.clipboard.writeText(embedCode)
                 .then(() => {
