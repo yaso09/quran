@@ -1,0 +1,82 @@
+<div class="embedded-verse">
+    <style>
+        @font-face {
+            font-family: 'Kitab';
+            src: url('./Kitab-Bold.ttf') format('truetype');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'StackSansNotch';
+            src: url('./StackSansNotch-Bold.ttf') format('truetype');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+    </style>
+    <div id="arabic" style="
+        font-family: 'Kitab', 'Noto Naskh Arabic', serif;
+        font-size: 32px;
+        font-weight: 700;
+        margin: 5px 0;
+        text-align: center;
+    "></div>
+    <div id="meal" style="
+        font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', sans-serif;
+        font-size: 16px;
+        margin-bottom: 10px;
+        text-align: center;
+    "></div>
+    <div id="num" style="
+        font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', sans-serif;
+        font-size: 12px;
+        font-weight: bold;
+        color: #555;
+        margin-bottom: 5px;
+        text-align: center;
+    "></div>
+</div>
+<script>
+    function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }
+
+    const sure = getQueryParam("sure");
+    const ayet = getQueryParam("ayet");
+    const meal = getQueryParam("meal");
+
+    async function loadVerse() {
+        if (!ayet || isNaN(ayet)) window.location.href = "/";
+        try {
+            const response = await fetch(`./data/verses/${sure}.json`);
+            const data = await response.json();
+            const verse = data.verses[ayet - 1];
+
+            document.querySelector("#arabic").innerHTML = verse.arabic;
+            document.querySelector("#num").innerHTML =
+                `Ayet ${verse.verseNumber} (${verse.verseKey})`;
+        }
+        catch {
+            window.location.href = "/";
+        }
+        try {
+            const response = await fetch(`./data/mealler/${meal}.json`);
+            const data = await response.json();
+            const verse = data.sures[sure - 1].ayetler[1];
+
+            document.querySelector("#meal").innerHTML = verse;
+        }
+        catch {
+            window.location.href = "/";
+        }
+    }
+
+    if (sure && !isNaN(sure) && sure >= 1 && sure <= 114) {
+        try {loadVerse();}
+        catch {
+            window.location.href = "/";
+        }
+    } else window.location.href = "/";
+</script>

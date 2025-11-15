@@ -158,6 +158,7 @@ mark { background-color: yellow; }
 <script>
 const sureSelect = document.getElementById('sureSelect');
 const searchInput = document.getElementById('searchInput');
+const mealSelect = document.getElementById("mealSelect");
 let allVerses = []; 
 
 const sureNames=[ /* ... liste aynı şekilde burada ... */ 
@@ -215,7 +216,7 @@ async function loadVerse(chapter){
     allVerses=[];
     if(!chapter) return window.location.href = "/"; 
     try{
-        const response=await fetch(`/data/verses/${chapter}.json`);
+        const response=await fetch(`./data/verses/${chapter}.json`);
         const data=await response.json();
         allVerses=data.verses;
         renderVerses(allVerses);
@@ -481,11 +482,26 @@ async function renderVerses(verses, highlight=''){
                 .catch(err => alert('Kopyalama hatası: ' + err));
         })
 
+        const openNewTabBtn = document.createElement('button');
+        openNewTabBtn.textContent = '🖥 Yeni Sekmede Aç';
+        openNewTabBtn.classList.add('nav-btn');
+        openNewTabBtn.style.fontSize = '16px';
+        openNewTabBtn.style.padding = '6px 12px';
+        openNewTabBtn.style.marginTop = '5px';
+        openNewTabBtn.style.marginLeft = '5px';
+
+        openNewTabBtn.addEventListener('click', () => {
+            const mealName = mealSelect.value; // veya seçtiğin meal değişkeni
+            const url = `/embed.html?sure=${ayet.verseKey.split(":")[0]}&ayet=${ayet.verseNumber}&meal=${mealName}`;
+            window.open(url, '_blank'); // Yeni sekmede aç
+        });
+
         verseDiv.appendChild(number);
         verseDiv.appendChild(arabic);
         verseDiv.appendChild(tevil);
         verseDiv.appendChild(shareBtn);
         verseDiv.appendChild(embedBtn);
+        verseDiv.appendChild(openNewTabBtn);
 
         container.appendChild(verseDiv);
     }
