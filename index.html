@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Kur'an Fihristi</title>
+<title>Kur'an-ı Kerîm Oku</title>
 
 <link rel="manifest" href="https://kuran.yasireymen.com/manifest.json">
 
@@ -134,6 +134,18 @@ h2 {
     <button class="nav-btn" onclick="window.location.href = 'https://yasireymen.com'">
         yasireymen.com
     </button>
+    <button class="nav-btn" onclick="
+        document.getElementById('surelerHeader').scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        })
+    ">Sureler</button>
+    <button class="nav-btn" onclick="
+        document.getElementById('fihristHeader').scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        })
+    ">Fihrist</button>
 </center>
 
 <br><div><h2><i>
@@ -156,7 +168,12 @@ window.addEventListener("message", function(e) {
 
 </div><br>
 
+<h1 id="surelerHeader">Sureler</h1>
+
 <div class="sure-list" id="sureList"></div>
+
+<br><h1 id="fihristHeader">Fihrist</h1>
+<h2>Pek Yakında</h2>
 
 <br><footer>
     <center>
