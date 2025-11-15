@@ -61,7 +61,7 @@
             line-height: 1.6;
         }
 
-        #num, #copyright {
+        #num, #copyright, #mealName {
             font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', sans-serif;
             font-size: 13px;
             font-weight: 600;
@@ -85,7 +85,8 @@
 
     <div id="arabic"></div>
     <div id="meal"></div>
-    <div id="num"></div><br>
+    <div id="num"></div>
+    <div id="mealName"></div><br>
     <div id="copyright">kuran.yasireymen.com</div>
     
 </button>
@@ -121,6 +122,7 @@
             const verse = data.sures[sure - 1].ayetler[ayet - 1][1];
 
             document.querySelector("#meal").innerHTML = verse;
+            document.querySelector("#mealName").innerHTML = `${data.name} meali`;
         } catch {
             window.location.href = "/";
         }
