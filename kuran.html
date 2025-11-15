@@ -272,7 +272,7 @@ async function renderVerses(verses, highlight=''){
     for (let i = 0; i < verses.length; i++) {
         const ayet = await verses[i];
 
-        console.log(`Ayet: ${ayet}`);
+        console.log(`Ayet: ${ayet.verseKey}`);
         console.log(`Ayah: ${ayah}`);
 
         if (ayet.verseKey === ayah) {
