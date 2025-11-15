@@ -16,69 +16,78 @@
         }
 
         .embedded-verse {
-            padding: 10px;
+            padding: 18px;
             box-sizing: border-box;
-            max-width: 600px;
+            width: 100%;
+            max-width: 660px;
             margin: auto;
+            border-radius: 14px;
+            background: #fafafa;
+            border: 1px solid #e3e3e3;
+            cursor: pointer;
+
+            /* yumuşak gölge */
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+
+            /* dokununca hafif büyüsün */
+            transition: transform .15s ease, box-shadow .15s ease;
+        }
+
+        .embedded-verse:hover {
+            transform: scale(1.01);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.12);
         }
 
         #arabic {
             font-family: 'Kitab', 'Noto Naskh Arabic', serif;
-            font-size: 32px;
+            font-size: 34px;
             font-weight: 700;
-            margin: 5px 0;
+            margin: 5px 0 10px;
             text-align: center;
-            line-height: 1.4;
+            line-height: 1.5;
             word-break: break-word;
+
+            /* hat estetiğini öne çıkaran ince altın rengi */
+            color: #222;
         }
 
         #meal {
             font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', sans-serif;
-            font-size: 16px;
-            margin-bottom: 10px;
+            font-size: 17px;
+            margin: 12px 0;
             text-align: center;
+            color: #333;
+            line-height: 1.6;
         }
 
         #num, #copyright {
             font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', sans-serif;
-            font-size: 12px;
-            font-weight: bold;
-            color: #555;
-            margin-bottom: 5px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 6px;
             text-align: center;
         }
 
-        /* Mobil uyumlu ayarlar */
         @media (max-width: 480px) {
-            #arabic {
-                font-size: 24px;
-            }
-            #meal {
-                font-size: 14px;
-            }
-            #num, #copyright {
-                font-size: 10px;
-            }
+            .embedded-verse { padding: 12px; border-radius: 10px; }
+            #arabic { font-size: 26px; }
+            #meal { font-size: 14px; }
+            #num, #copyright { font-size: 11px; }
         }
 
         @media (max-width: 360px) {
-            #arabic {
-                font-size: 20px;
-            }
-            #meal {
-                font-size: 12px;
-            }
-            #num, #copyright {
-                font-size: 10px;
-            }
+            #arabic { font-size: 22px; }
+            #meal { font-size: 12px; }
         }
     </style>
 
     <div id="arabic"></div>
     <div id="meal"></div>
-    <div id="num"></div><br><br>
+    <div id="num"></div><br>
     <div id="copyright">kuran.yasireymen.com</div>
 </button>
+
 <script>
     function getQueryParam(param) {
         const urlParams = new URLSearchParams(window.location.search);
@@ -118,7 +127,7 @@
         try { loadVerse(); } catch { window.location.href = "/"; }
     } else window.location.href = "/";
 
-    document.querySelector("button").addEventListener("click", function() {
+    document.querySelector("button.embedded-verse").addEventListener("click", function () {
         window.open(`./kuran.html?sure=${sure}`, "_blank");
-    })
+    });
 </script>
