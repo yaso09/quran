@@ -14,7 +14,9 @@
 
 ![](/images/streak-ss.png)
 
-  
+## iFrame İçinde Ayet Gösterme
+
+[`/embed.html`](https://kuran.yasireymen.com/embed.html)
 
 ## Özellikler
 
