@@ -229,6 +229,13 @@ function removeZiyade() {
     })
 }
 
+function scrollToAyet(num = window.location.hash.split("#")[1]) {
+    document.getElementById(`verse${sureSelect.value}:${num}`).scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+    })
+}
+
 const sureSelect = document.getElementById('sureSelect');
 const searchInput = document.getElementById('searchInput');
 const mealSelect = document.getElementById("mealSelect");
@@ -295,7 +302,9 @@ async function loadVerse(chapter, meal){
         renderVerses(allVerses, "", meal);
         updateNavigationButtons(parseInt(chapter));
         const scrollTop = localStorage.getItem(`${sureSelect.value}.scrollTop`);
-        if(scrollTop) window.scrollTo(0, parseInt(scrollTop));
+        if (window.location.hash) {
+            scrollToAyet();
+        } else if(scrollTop) {window.scrollTo(0, parseInt(scrollTop));}
     }catch(e){
         container.innerHTML='<div class="loading">Bu sure yüklenemedi.</div>'; 
         console.error(e);
@@ -321,7 +330,9 @@ async function loadAllVerses(){
     renderVerses(allVerses);
     navigationDiv.style.display='none';
     const scrollTop = localStorage.getItem(`${sureSelect.value}.scrollTop`);
-    if(scrollTop) window.scrollTo(0, parseInt(scrollTop));
+    if (window.location.hash) {
+        scrollToAyet();
+    } else if(scrollTop) window.scrollTo(0, parseInt(scrollTop));
 }
 
 async function meal(name, sure, ayet) {
@@ -654,7 +665,9 @@ async function renderVerses(verses, highlight='', mealName="omer-nasuhi-bilmen")
 
     // Sonunda scrollu uygula
     const scrollTop = localStorage.getItem(`${sureSelect.value}.scrollTop`);
-    if(scrollTop) window.scrollTo({
+    if (window.location.hash) {
+        scrollToAyet();
+    } else if(scrollTop) window.scrollTo({
         top: parseInt(scrollTop),
         behavior: "smooth"
     });
