@@ -229,7 +229,13 @@ function removeZiyade() {
     })
 }
 
-function scrollToAyet(num = window.location.hash.split("#")[1]) {
+// URL parametresinden sure kontrolü
+function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+}
+
+function scrollToAyet(num = getQueryParam("ayet")) {
     document.getElementById(`verse${sureSelect.value}:${num}`).scrollIntoView({
         behavior: "smooth",
         block: "center"
@@ -722,11 +728,7 @@ if(lastChapter){
     window.location.href = "./";
 }
 
-// URL parametresinden sure kontrolü
-function getQueryParam(param) {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get(param);
-}
+
 
 const urlSure = getQueryParam('sure');
 if (urlSure && !isNaN(urlSure) && urlSure >= 1 && urlSure <= 114) {
