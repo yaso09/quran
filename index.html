@@ -9,6 +9,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Kur'an Oku">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link href="/pwa/img/iphone5_splash.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
 
 <script>
     if ('serviceWorker' in navigator) {
@@ -215,7 +216,7 @@ a {
 
 <div class="arabic-title">القرآن</div>
 <h1>Kur'an</h1>
-<center>
+<center style="width: 100%;">
     <button class="nav-btn" onclick="
         document.getElementById('surelerHeader').scrollIntoView({
             behavior: 'smooth',
