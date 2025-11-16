@@ -13,7 +13,7 @@
 
   
 
-![](/images/streak-ss.gif)
+![](/images/streak-ss.png)
 
   
 
