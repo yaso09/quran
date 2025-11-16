@@ -13,12 +13,13 @@
 
   
 
-![](/images/usage.gif)
+![](/images/streak-ss.gif)
 
   
 
 ## Özellikler
 
+ - [x] Okuma serisi
  - [x] Ömer Nasuhi Bilmen meali
  - [x] Hayrat Neşriyat meali
  - [x] Diyanet Vakfı meali
