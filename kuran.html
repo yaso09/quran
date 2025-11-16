@@ -74,7 +74,7 @@ mark { background-color: yellow; }
   font-size: 16px;
   font-weight: 600;
   color: #000;
-  background: #fff;
+  background: transparent;
   border: 1px solid #000;
   padding: 10px 16px;
   margin: 5px;
@@ -352,6 +352,45 @@ async function renderVerses(verses, highlight='', mealName="omer-nasuhi-bilmen")
 
         tevil.innerHTML = highlightText(result, highlight);
 
+        const markBtn = document.createElement("button");
+        markBtn.classList.add("nav-btn");
+        markBtn.style.display = "none";
+        markBtn.style.fontSize = "16px";
+        markBtn.style.padding = "6px 12px";
+        markBtn.style.marginTop = "5px";
+
+        // 1) Önce localStorage'daki listeyi güvenli şekilde al
+        let markeds = JSON.parse(localStorage.getItem("markeds") || "[]");
+
+        if (markeds.includes(ayet.verseKey)) {
+            verseDiv.style.backgroundColor = "#ffe9c9";
+            verseDiv.style.borderRadius = "14px";
+            verseDiv.style.border = "10px #ffe9c9 solid";
+            markBtn.textContent = "🤩 İşaretlemeyi Kaldır";
+        }
+        else {
+            markBtn.textContent = "⭐ İşaretle";
+        }
+
+        markBtn.addEventListener("click", function() {
+            if (markeds.includes(ayet.verseKey)) {
+                markeds = markeds.filter(n => n !== ayet.verseKey);
+                localStorage.setItem("markeds", JSON.stringify(markeds));
+                markBtn.textContent = "⭐ İşaretle";
+                verseDiv.style.backgroundColor = "#fff";
+                verseDiv.style.borderRadius = "0";
+                verseDiv.style.border = "0";
+            } else {
+                markeds.push(ayet.verseKey);
+                console.log(markeds);
+                localStorage.setItem("markeds", JSON.stringify(markeds));
+                markBtn.textContent = "🤩 İşaretlemeyi Kaldır";
+                verseDiv.style.backgroundColor = "#ffe9c9";
+                verseDiv.style.borderRadius = "14px";
+                verseDiv.style.border = "10px #ffe9c9 solid";
+            }
+        })
+
         const shareBtn = document.createElement('button');
         shareBtn.textContent = '📤 Paylaş';
         shareBtn.classList.add('nav-btn');
@@ -558,6 +597,7 @@ async function renderVerses(verses, highlight='', mealName="omer-nasuhi-bilmen")
         verseDiv.appendChild(number);
         verseDiv.appendChild(arabic);
         verseDiv.appendChild(tevil);
+        verseDiv.appendChild(markBtn);
         verseDiv.appendChild(shareBtn);
         verseDiv.appendChild(embedBtn);
         verseDiv.appendChild(openNewTabBtn);
@@ -703,5 +743,6 @@ updateStreak();
 
 
 </script>
+<script src="devmode.js"></script>
 </body>
 </html>
