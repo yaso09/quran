@@ -370,7 +370,7 @@ function mark(verseKey) {
 
 function isMarked(verseKey) {
     if (localStorage.getItem("markeds"))
-        return localStorage.getItem("markeds").search(verseKey) > 0;
+        return JSON.parse(localStorage.getItem("markeds")).search(verseKey) > 0;
     else {
         localStorage.setItem("markeds", "[]");
         return false;
