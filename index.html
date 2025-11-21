@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Kur'an-ı Kerîm Oku</title>
 
+<link rel="stylesheet" href="/assets/css/continue.css">
+<link rel="stylesheet" href="/assets/css/btn.css">
+<link rel="stylesheet" href="/assets/css/goToAyah.css">
+
 <link rel="manifest" href="/manifest.json">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Kur'an Oku">
@@ -104,39 +108,17 @@ h2 {
     font-weight: 500;
 }
 
-.nav-btn {
-  font-family: 'StackSansNotch', sans-serif;
-  font-size: 16px;
-  font-weight: 600;
-  color: #000;
-  background: #fff;
-  border: 1px solid #000;
-  padding: 10px 16px;
-  margin: 5px;
-  border-radius: 999px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-.nav-btn:hover:not(:disabled) {
-  background: #000;
-  color: #fff;
-}
-.nav-btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
 @media(max-width:700px){
     .arabic-title{ font-size: 52px; }
     .sure-item{ padding: 12px; }
     .sure-number, .sure-name{ font-size: 16px; }
-    #streakIcon { display: none; }
-    #devamEt #left {
+    .streakIcon { display: none; }
+    .left {
         align-items: center;
         width: 100%;
         text-align: center;
     }
-    #devamEt #left h1, #devamEt #left h2 { text-align: center; }
+    .left h1, .left h2 { text-align: center; }
 }
 
 #toTopBtn {
@@ -169,44 +151,7 @@ h2 {
 a {
     color: #000;
 }
-#devamEt {
-    background: linear-gradient(
-        to top,
-        #ff9600 0%,
-        #c95e00 100%
-    );
-    border-radius: 14px;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-#devamEt h1, #devamEt h2 {
-    margin: 2rem;
-    color: #fff;
-    text-align: left;
-}
-#devamEt h2 {font-size: 1.5rem;}
-#streakIcon {
-    margin: 2rem;
-    height: 15%;
-    width: 15%;
-    text-align: right;
-    overflow: visible;
-}
-#devamEt button {
-    margin: 2rem;
-    margin-top: -2rem;
-    background: transparent;
-    border: #fff solid 2px;
-    color: #fff;
-}
-#devamEt button:hover {
-    background-color: #fbff00;
-    color: #000;
-    border: #fbff00 solid 2px;
-}
+
 .iframe-container {
   display: flex;           /* iframe'leri yatay sırala */
   overflow-x: auto;        /* yatay kaydırma */
@@ -233,31 +178,33 @@ a {
 <h1>Kur'an</h1></div>
 
 <center style="width: 100%;">
-    <button class="nav-btn" onclick="
+    <button class="btn" onclick="
         document.getElementById('dualarHeader').scrollIntoView({
             behavior: 'smooth',
             block: 'start'
         })
     ">Dualar</button>
-    <button class="nav-btn" onclick="
+    <button class="btn" onclick="
         document.getElementById('surelerHeader').scrollIntoView({
             behavior: 'smooth',
             block: 'start'
         })
     ">Sureler</button>
-    <button class="nav-btn" onclick="
+    <button class="btn" onclick="
         document.getElementById('fihristHeader').scrollIntoView({
             behavior: 'smooth',
             block: 'start'
         })
     ">Fihrist</button>
-    <button class="nav-btn" onclick="
+    <button class="btn" disabled>Forum</button>
+    <button class="btn" disabled>Blog</button>
+    <button class="btn" onclick="
         document.getElementById('hakkındaHeader').scrollIntoView({
             behavior: 'smooth',
             block: 'start'
         })
     ">Hakkında</button>
-    <button class="nav-btn" id="install-app" style="display: none">Uygulamayı Yükle</button>
+    <button class="btn" id="install-app" style="display: none">Uygulamayı Yükle</button>
 <script>
     const installButton = document.getElementById('install-app');
     let beforeInstallPromptEvent
@@ -281,14 +228,31 @@ a {
     "Sizin en hayırlılarınız Kur'an'ı öğrenen ve öğretenlerinizdir." —Hz. Peygamber
 </i></h2></div><br>
 
-<div id="devamEt">
-    <div id="left">
+<div id="continue">
+    <div class="left">
         <h1>Okumaya Devam Et</h1>
         <h2 id="streakCounter"></h2><br>
-        <button class="nav-btn" onclick="window.location.href='./kuran.html'">Kaldığın Yerden Devam Et</button>
+        <button class="btn" onclick="window.location.href='./kuran.html'">Kaldığın Yerden Devam Et</button>
     </div>
-    <svg id="streakIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="#ffffff" d="M160.5-26.4c9.3-7.8 23-7.5 31.9 .9 12.3 11.6 23.3 24.4 33.9 37.4 13.5 16.5 29.7 38.3 45.3 64.2 5.2-6.8 10-12.8 14.2-17.9 1.1-1.3 2.2-2.7 3.3-4.1 7.9-9.8 17.7-22.1 30.8-22.1 13.4 0 22.8 11.9 30.8 22.1 1.3 1.7 2.6 3.3 3.9 4.8 10.3 12.4 24 30.3 37.7 52.4 27.2 43.9 55.6 106.4 55.6 176.6 0 123.7-100.3 224-224 224S0 411.7 0 288c0-91.1 41.1-170 80.5-225 19.9-27.7 39.7-49.9 54.6-65.1 8.2-8.4 16.5-16.7 25.5-24.2zM225.7 416c25.3 0 47.7-7 68.8-21 42.1-29.4 53.4-88.2 28.1-134.4-4.5-9-16-9.6-22.5-2l-25.2 29.3c-6.6 7.6-18.5 7.4-24.7-.5-17.3-22.1-49.1-62.4-65.3-83-5.4-6.9-15.2-8-21.5-1.9-18.3 17.8-51.5 56.8-51.5 104.3 0 68.6 50.6 109.2 113.7 109.2z"/></svg>
+    <img class="streakIcon" id="streakIcon" src="/assets/img/fire.svg">
 </div><br>
+<div id="continueFreeze">
+    <div class="left">
+        <h1>Okumaya Devam Et</h1>
+        <h2 id="streakCounterFreeze"></h2><br>
+        <button class="btn" onclick="window.location.href='./kuran.html?sure=1'">Yeni Seriye Başla</button>
+    </div>
+    <img class="streakIcon" src="/assets/img/freeze.svg">
+</div><br>
+
+<form action="/kuran.html">
+    <center class="goToAyah">
+        <h1>Ayete Git</h1>
+        <input name="sure" type="number" min="1" max="114" step="1" required> : 
+        <input name="ayet" type="number" min="1" max="286" required><br><br>
+        <button class="btn">Ayete Git</button>
+    </center>
+</form>
 
 <br><h1 id="isaretliAyetler">İşaretlenmiş Ayetler</h1><div
 id="isaretliler" class="iframe-container"></div><br>
@@ -427,13 +391,13 @@ window.addEventListener("message", function(e) {
 
 <br><footer>
     <center>
-        <button class="nav-btn" onclick="resetData()">
+        <button class="btn" onclick="resetData()">
             Verileri Temizle
         </button>
-        <button class="nav-btn" onclick="window.location.href = 'https://yasireymen.com'">
+        <button class="btn" onclick="window.location.href = 'https://yasireymen.com'">
             yasireymen.com
         </button>
-        <button class="nav-btn" onclick="window.location.href = 'https://www.instagram.com/yekayabasi'">
+        <button class="btn" onclick="window.location.href = 'https://www.instagram.com/yekayabasi'">
             İnstagram
         </button><br><br>
         <a href="//www.dmca.com/Protection/Status.aspx?ID=2ffb4b5d-6932-45b4-becd-7cd91ad3ed4e" title="DMCA.com Protection Status" class="dmca-badge"> <img src ="https://images.dmca.com/Badges/DMCA_logo-200w_c.png?ID=2ffb4b5d-6932-45b4-becd-7cd91ad3ed4e"  alt="DMCA.com Protection Status" /></a>  <script src="https://images.dmca.com/Badges/DMCABadgeHelper.min.js"> </script>
@@ -444,13 +408,9 @@ window.addEventListener("message", function(e) {
 
 <button id="toTopBtn" aria-label="En üste çık">☝️</button>
 
+<script src="/assets/js/continue.js"></script>
+
 <script>
-if (!localStorage.getItem("streak")) {
-    document.querySelector("#devamEt").style.display = "none";
-} else {
-    document.querySelector("#streakCounter").innerText =
-        `${localStorage.getItem("streak")} Günlük Serin Var`
-}
 
 function resetData() {
     if (confirm("Veriler temizlendiği takdirde en son nerede kaldığınız bilgisi de silinecektir, emin misiniz?")) {

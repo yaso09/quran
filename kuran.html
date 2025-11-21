@@ -4,6 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Kur'an Okuyucu</title>
+
+<link rel="stylesheet" href="/assets/css/btn.css">
+<link rel="stylesheet" href="/assets/js/loadScreen.css">
+
 <style>
 @font-face {
     font-family: 'Kitab';
@@ -69,34 +73,13 @@ select, input { font-size: 16px; padding: 6px 12px; margin: 5px; }
 .loading { font-size: 18px; font-weight: bold; text-align: center; margin: 30px 0; }
 mark { background-color: yellow; }
 
-.nav-btn {
-  font-family: 'StackSansNotch', sans-serif;
-  font-size: 16px;
-  font-weight: 600;
-  color: #000;
-  background: transparent;
-  border: 1px solid #000;
-  padding: 10px 16px;
-  margin: 5px;
-  border-radius: 999px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-.nav-btn:hover:not(:disabled) {
-  background: #000;
-  color: #fff;
-}
-.nav-btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
 
 @media(max-width:800px){
     .arabic-text{font-size:25px;}
     .english-text{font-size:14px;}
     .controls select,.controls input{font-size:14px;}
     .arabic{font-size:48px;}
-    .nav-btn{font-size:14px; padding:8px 12px;}
+    .btn{font-size:14px; padding:8px 12px;}
     .opennewtab{display: none;}
     #printBtn{display: none;}
 }
@@ -164,7 +147,7 @@ mark { background-color: yellow; }
 <div class="arabic">القرآن</div>  <!-- Arapça Kur'an -->
 <h1>Kur'an</h1><br>
 <div class="topbar"><center>
-    <button onclick="window.location.href='./'" class="nav-btn">←</button>
+    <button onclick="window.location.href='./'" class="btn">←</button>
 <select id="mealSelect">
     <option value="omer-nasuhi-bilmen" selected>Ömer Nasuhi Bilmen</option>
     <option value="hayrat-nesriyat">Hayrat Neşriyat</option>
@@ -174,14 +157,14 @@ mark { background-color: yellow; }
 <input type="text" id="searchInput" placeholder="Ayet veya içerik ara...">
 
 <!-- Yazdırma Butonu -->
-<button id="printBtn" class="nav-btn">Yazdır</button>
+<button id="printBtn" class="btn">Yazdır</button>
 </center></div><br><br>
 
 <div id="ayetler"><div class="loading">Yükleniyor...</div></div>
 
 <div id="navigationButtons" style="text-align:center; margin-top:20px; display:none;">
-  <button id="prevSure" class="nav-btn">← Önceki Sure</button>
-  <button id="nextSure" class="nav-btn">Sonraki Sure →</button>
+  <button id="prevSure" class="btn">← Önceki Sure</button>
+  <button id="nextSure" class="btn">Sonraki Sure →</button>
 </div>
 </div>
 
@@ -411,7 +394,7 @@ async function renderVerses(verses, highlight='', mealName="omer-nasuhi-bilmen")
         tevil.innerHTML = highlightText(result, highlight);
 
         const markBtn = document.createElement("button");
-        markBtn.classList.add("nav-btn");
+        markBtn.classList.add("btn");
         //markBtn.style.display = "none";
         markBtn.style.fontSize = "16px";
         markBtn.style.padding = "6px 12px";
@@ -445,7 +428,7 @@ async function renderVerses(verses, highlight='', mealName="omer-nasuhi-bilmen")
 
         const shareBtn = document.createElement('button');
         shareBtn.textContent = '📤 Paylaş';
-        shareBtn.classList.add('nav-btn');
+        shareBtn.classList.add('btn');
         shareBtn.style.fontSize = '16px';
         shareBtn.style.padding = '6px 12px';
         shareBtn.style.marginTop = '5px';
@@ -563,7 +546,7 @@ async function renderVerses(verses, highlight='', mealName="omer-nasuhi-bilmen")
 
         const embedBtn = document.createElement("button");
         embedBtn.textContent = "🔗 Göm"
-        embedBtn.classList.add("nav-btn");
+        embedBtn.classList.add("btn");
         embedBtn.style.fontSize = "16px";
         embedBtn.style.padding = '6px 12px';
         embedBtn.style.marginTop = '5px';
@@ -633,7 +616,7 @@ async function renderVerses(verses, highlight='', mealName="omer-nasuhi-bilmen")
 
         const openNewTabBtn = document.createElement('button');
         openNewTabBtn.textContent = '🖥 Yeni Sekmede Aç';
-        openNewTabBtn.classList.add('nav-btn');
+        openNewTabBtn.classList.add('btn');
         openNewTabBtn.classList.add("opennewtab");
         openNewTabBtn.style.fontSize = '16px';
         openNewTabBtn.style.padding = '6px 12px';
@@ -797,5 +780,9 @@ updateStreak();
 
 </script>
 <script src="devmode.js"></script>
+<!--div class="loadScreen">
+    <h1>...</h1>
+</div>
+<script src="/assets/js/loadScreen.js"></script-->
 </body>
 </html>
